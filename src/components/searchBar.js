@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Dropdown } from "react-bootstrap";
 import "../styles/searchbar.css";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -7,6 +7,7 @@ import Card from "./card.js";
 
 const SearchBar = ({ data }) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [filter, setFilter] = useState("");
 
   return (
     <>
@@ -23,6 +24,23 @@ const SearchBar = ({ data }) => {
           <ClearIcon className="searchIcon" onClick={() => setSearchTerm("")} />
         )}
       </div>
+
+      <Dropdown>
+        <Dropdown.Toggle variant="success" id="dropdown-basic">
+          {filter.length === "" ? "Status" : filter}
+        </Dropdown.Toggle>
+
+        <Dropdown.Menu>
+          <Dropdown.Item onClick={() => setFilter("alive")}>
+            Alive
+          </Dropdown.Item>
+          <Dropdown.Item onClick={() => setFilter("dead")}>Dead</Dropdown.Item>
+          <Dropdown.Item onClick={() => setFilter("unknown")}>
+            Unknown
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+
       <div>
         <Container>
           <Row>
