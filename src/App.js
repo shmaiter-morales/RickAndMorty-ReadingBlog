@@ -1,23 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import "./styles/app.css";
+import React, { useEffect, useState } from "react";
+import NavbarRickYMorty from "./components/navbar";
+import SearchBar from "./components/searchBar";
 
 function App() {
+  const [data, setData] = useState({});
+
+  const loadData = async () => {
+    try {
+      const url = "https://rickandmortyapi.com/api/character";
+      const res = await fetch(url);
+      if (res.ok) {
+        const data = await res.json();
+        console.log(data.results);
+        setData(data.results);
+      } else {
+        setData("");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <NavbarRickYMorty />
+      <SearchBar data={data} />
     </div>
   );
 }
