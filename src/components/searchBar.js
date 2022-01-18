@@ -1,14 +1,9 @@
 import React, { useState } from "react";
-import {
-  Container,
-  Row,
-  Card,
-  Col,
-  ListGroup,
-  ListGroupItem,
-} from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import "../styles/searchbar.css";
 import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from "@mui/icons-material/Clear";
+import Card from "./card.js";
 
 const SearchBar = ({ data }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -22,8 +17,11 @@ const SearchBar = ({ data }) => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        {/* <i class="fas fa-search searchIcon"></i> */}
-        <SearchIcon className="searchIcon" />
+        {searchTerm === "" ? (
+          <SearchIcon className="searchIcon" />
+        ) : (
+          <ClearIcon className="searchIcon" onClick={() => setSearchTerm("")} />
+        )}
       </div>
       <div>
         <Container>
@@ -44,26 +42,7 @@ const SearchBar = ({ data }) => {
                 .map((character, index) => {
                   return (
                     <Col key={index}>
-                      <Card
-                        className="mt-4 mb-4"
-                        key={index}
-                        style={{ width: "18rem" }}
-                      >
-                        <Card.Img variant="top" src={character.image} />
-                        <Card.Body>
-                          <Card.Title>{character.name}</Card.Title>
-                          <Card.Text>...</Card.Text>
-                        </Card.Body>
-                        <ListGroup className="list-group-flush">
-                          <ListGroupItem>
-                            Status: {character.status}
-                          </ListGroupItem>
-                          <ListGroupItem>
-                            Species: {character.species}
-                          </ListGroupItem>
-                          <ListGroupItem>{character.origin.name}</ListGroupItem>
-                        </ListGroup>
-                      </Card>
+                      <Card index={index} character={character} />
                     </Col>
                   );
                 })
